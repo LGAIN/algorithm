@@ -1,0 +1,52 @@
+# === Java ===
+*.class
+*.jar
+*.war
+*.ear
+*.log
+*.iml
+*.tmp
+*.swp
+out/
+build/
+target/
+
+# === IntelliJ IDEA ===
+.idea/
+*.iws
+*.ipr
+*.iml
+*.bak
+.idea_modules/
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.ipynb_checkpoints
+env/
+venv/
+*.egg-info/
+*.egg
+*.pkl
+
+# === VSCode ===
+.vscode/
+
+# === MacOS ===
+.DS_Store
+
+# === 시스템 공통 ===
+*.log
+*.tmp
+*.swp
+*.bak
+
+# === 환경 변수 파일 ===
+.env
