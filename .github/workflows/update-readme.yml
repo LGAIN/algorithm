@@ -4,7 +4,10 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:  # 수동 실행도 가능
+  workflow_dispatch:  # 수동 실행 부분
+
+permissions:
+  contents: write
 
 jobs:
   update-readme:
@@ -30,3 +33,5 @@ jobs:
           git add README.md
           git commit -m "auto: update README with latest commits" || echo "No changes to commit"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
