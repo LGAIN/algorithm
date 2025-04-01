@@ -84,5 +84,5 @@ public class Main {
         else if (BNP(cash) < TIMING(cash)) System.out.println("TIMING");
         else System.out.println("SAMESAME");
 
-    }
+    } // main
 }
