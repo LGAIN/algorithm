@@ -1,69 +1,57 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static int n;
-    static int[] dx = {-1, 1, 0, 0};
-    static int[] dy = {0, 0, -1, 1};
-    static int[][] map;
-    static int[][] visit;
-    static Queue<int[]> queue = new LinkedList<>();
-    static ArrayList<Integer> house_cnt = new ArrayList<>();
-    
-    public static void main(String[] args) throws Exception {
-        n = Integer.parseInt(br.readLine());
-        map = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            String line = br.readLine();
-            for (int j = 0; j < n; j++) {
-                map[i][j] = line.charAt(j) - '0'; 
-            }
-        } // for 
-        visit = new int[n][n];
-        int group_cnt = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (map[i][j] == 1 && visit[i][j] != 1) {
-                    BFS(i, j);
-                    group_cnt++;
-                }
-            }
-        } // for
 
-        System.out.println(group_cnt);
-        Collections.sort(house_cnt);
-        for (int i = 0; i < group_cnt; i++) {
-            System.out.println(house_cnt.get(i));
-        }
-        
-  } // main
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static int[][] map;
+	static boolean[][] visited;
+	static int[] di = {0, 1, 0, -1};
+	static int[] dj = {1, 0, -1, 0};
 
-    
-    static void BFS(int a, int b){
-        visit[a][b] = 1; // 방문 처리 
-        queue.add(new int[] {a, b});
-        int cnt = 1;
-        
-        while (!queue.isEmpty()) {
-            int[] pos = queue.poll();
-            int x = pos[0];
-            int y = pos[1];
+	static int dfs(int[][]map, int i, int j) {
+		int cnt = 1;
+		visited[i][j] = true;
+		for (int k = 0; k < 4; k++) {
+			int ni = i + di[k];
+			int nj = j + dj[k];
+			if (ni < 0 || nj < 0 || ni >= map.length || nj >= map[0].length) {
+				continue;
+			}
+			if (!visited[ni][nj] && map[ni][nj] == 1) {
+				cnt += dfs(map, ni, nj);
 
-            for (int d = 0; d < 4; d++) {
-                int nx = x + dx[d];
-                int ny = y + dy[d];
+			}
+		}
+		return cnt;
+	}
 
-                if (nx < 0 || ny < 0 || nx >= n || ny >= n) continue;
+	public static void main(String[] args) throws IOException {
+		int n = Integer.parseInt(br.readLine());
+		map = new int[n][n];
+		visited = new boolean[n][n];
 
-                if (visit[nx][ny] != 1 && map[nx][ny] == 1) {
-                    visit[nx][ny] = 1;
-                    queue.add(new int[] {nx, ny});
-                    cnt++;
-                }
-            }
-        }// while
-        house_cnt.add(cnt);
-    } // BFS
-     
+		for (int i = 0; i < n; i++) {
+			String line = br.readLine();
+			for (int j = 0; j < n; j++) {
+				map[i][j] = line.charAt(j) - '0';
+			}
+		} // map 입력
+
+		List<Integer> houseCount = new ArrayList<>();
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if (map[i][j] == 1 && !visited[i][j]) {
+					int count = dfs(map, i, j);
+					houseCount.add(count);
+				}
+			}
+		}
+
+		Collections.sort(houseCount);
+		System.out.println(houseCount.size());
+		for (int c :  houseCount) {
+			System.out.println(c);
+		}
+	}
 }
