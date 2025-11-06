@@ -2,59 +2,62 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringTokenizer st;
-    static int w; static int h;
-    static int[][] map;
-    static boolean[][] visit;
-    static int[] di = {1, -1, 0, 0, 1, -1, 1, -1};
-    static int[] dj = {0, 0, -1, 1, 1, -1, -1, 1};
 
-    static void dfs (int start_i, int start_j) {
-        visit[start_i][start_j] = true;
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static StringTokenizer st;
+	static int w;
+	static int h;
+	static int[][] map;
+	static boolean[][] visited;
+	static int[] dx = {0, 1, 0, -1, -1, 1, 1, -1};
+	static int[] dy = {-1, 0, 1, 0, -1, 1, -1, 1};
 
-        for (int d = 0; d < 8; d++) {
-            int ni = start_i + di[d];
-            int nj = start_j + dj[d];
-            if (isValid(ni, nj) && !visit[ni][nj] && map[ni][nj] == 1) {
-                dfs(ni, nj);
-            }
-        }
-    } // dfs
+	public static void dfs(int i, int j) {
+		visited[i][j] = true;
+		for (int k = 0; k < 8; k++) {
+			int ni = i + dx[k];
+			int nj = j + dy[k];
+			if (isValid(ni, nj) && map[ni][nj] == 1 && !visited[ni][nj]) {
+				dfs(ni, nj);
+			}
+		}
+	}
 
-    static boolean isValid (int i, int j) {
-        if (i >= 0 && j >= 0 && i < h && j < w) return true;
-        return false;
-    } // isValid
+	public static boolean isValid(int i, int j) {
+		return i >= 0 && i < h && j >= 0 && j < w;
+	}
 
-    public static void main(String[] args) throws IOException {
-        while (true) {
-            st = new StringTokenizer(br.readLine());
-            w = Integer.parseInt(st.nextToken());
-            h = Integer.parseInt(st.nextToken());
-            if (w == 0 && h == 0) break;
-            map = new int[h][w];
-            for (int i = 0; i < h; i++) {
-                st = new StringTokenizer(br.readLine());
-                for (int j = 0; j < w; j++) {
-                    map[i][j] = Integer.parseInt(st.nextToken());
-                }
-            } // map 입력
+	public static void main(String[] args) throws IOException {
 
-            visit = new boolean[h][w];
-            int cnt = 0;
-            for (int i = 0; i < h; i++) {
-                for (int j = 0; j < w; j++) {
-                    if (!visit[i][j] && map[i][j] == 1) {
-                        dfs(i, j);
-                        cnt++;
-                    }
-                }
-            }
+		while (true) {
+			st = new StringTokenizer(br.readLine());
+			w = Integer.parseInt(st.nextToken());
+			h = Integer.parseInt(st.nextToken());
 
-            System.out.println(cnt);
-        } // while
+			if (w == 0 && h == 0) break;
 
+			map = new int[h][w];
+			visited = new boolean[h][w];
 
-    } // main
+			for (int i = 0; i < h; i++) {
+				st = new StringTokenizer(br.readLine());
+				for (int j = 0; j < w; j++) {
+					map[i][j] = Integer.parseInt(st.nextToken());
+				}
+			}
+
+			int count = 0;
+
+			for (int i = 0; i < h; i++) {
+				for (int j = 0; j < w; j++) {
+					if (map[i][j] == 1 && !visited[i][j]) {
+						dfs(i, j);
+						count++;
+					}
+				}
+			}
+
+			System.out.println(count);
+		}
+	}
 }
