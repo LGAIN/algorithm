@@ -39,12 +39,12 @@ public class Main {
 		dist[start] = 0;
 
 		PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
-		pq.add(new int[]{0, start});
+		pq.add(new int[]{start, 0});
 
 		while (!pq.isEmpty()) {
 			int[] cur = pq.poll();
-			int cost = cur[0];
-			int node = cur[1];
+			int node = cur[0];
+			int cost = cur[1];
 
 			if (dist[node] < cost) continue;
 
@@ -53,12 +53,10 @@ public class Main {
 				int nextCost = cost + next[1];
 				if (dist[nextNode] > nextCost) {
 					dist[nextNode] = nextCost;
-					pq.add(new int[]{nextCost,nextNode});
+					pq.add(new int[]{nextNode, nextCost});
 				}
 			}
-
 		}
-
 		return dist[end];
 	}
 }
